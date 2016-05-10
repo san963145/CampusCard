@@ -2,75 +2,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList" import="java.util.List" import="java.util.Iterator" %>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html>
 <html>
   <head>
-  <%
-	String is_config = this.getServletContext().getRealPath("/client.properties");
-    Cookie all_cookies[] = request.getCookies();
-    Cookie myCookie;
-    String decodedCookieValue = null;
-    if (all_cookies != null) {
-        for(int i=0; i< all_cookies.length; i++) {
-            myCookie = all_cookies[i];
-            if( myCookie.getName().equals("iPlanetDirectoryPro") ) {
-                decodedCookieValue = URLDecoder.decode(myCookie.getValue(),"GB2312");
-            }
-        }
-    }
-
-	IdentityFactory factory = IdentityFactory.createFactory( is_config );
-	IdentityManager im = factory.getIdentityManager();
-	
-	String curUser = "";
-	String authority="";
-	if (decodedCookieValue != null ) {
-    	curUser = im.getCurrentUser(decodedCookieValue);
-    }
-	if(curUser.length()==0){
-		String gotoURL = request.getRequestURL().toString();
-		String loginURL = im.getLoginURL() +"?goto=" +java.net.URLEncoder.encode(gotoURL,"UTF-8");
-%>
-<script>
-  location="<%=loginURL%>"
-</script>
-<% 
-	}   // if(curUser.length()==0)
-		
-	String path = request.getContextPath();
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-	User user=null;
-  if(curUser.length()!=0)
-  {
-	user=(User)session.getAttribute("user");
-	if(user==null)
-	{
-		user=new UserDaoImpl().select(curUser);
-		if(user==null)
-		{
-%>
-			<script>
-			  location="http://i.cqu.edu.cn/deny.html";
-			</script>
-<% 
-		}
-		else
-		{
-		   session.setAttribute("user",user);
-		   authority=user.getAuthority();
-		}
-	}
-	else
-	{
-		authority=user.getAuthority();
-	}	
-  }
-%>
+ 
 <%
-  
+  User user=(User)session.getAttribute("user");
   ArrayList<String[]>result=(ArrayList<String[]>)request.getAttribute("result");
   String department=(String)request.getAttribute("department");
   String major=(String)request.getAttribute("major");
@@ -87,11 +27,9 @@
   }
 %>  
 
-<% if(curUser.length()!=0){
-	
-%>
+
   
-    <base href="<%=basePath%>">
+    <base href="${sessionScope.basePath }">
     <meta charset="UTF-8">
     <title>一卡通消费分析系统</title>
 	 <!-- 禁缓存-->
@@ -138,14 +76,14 @@
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
           <a href="#" class="sidebar-toggle visible-xs" data-toggle="offcanvas" role="button">
-            <span class="sr-only"><%=curUser %></span>
+            <span class="sr-only">${sessionScope.curUser}</span>
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
               <!-- User info -->
               <li>
-			    <a href="pages/manager/info.jsp"><%=curUser %></a>
+			    <a href="pages/manager/info.jsp">${sessionScope.curUser}</a>
 			  </li>
 			  <li>
 			    <a href="logout.jsp"><i class="fa fa-mail-forward"></i></a>
@@ -172,40 +110,40 @@
 				<i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <%if(authority.equals("Admin")){ %>
-                <li class="admin"><a href="pages/cardSystem/searchByGroup.jsp"><i class="fa fa-circle-o"></i> 按学院查询</a></li>
-                <%} %>
-                <%if(authority.equals("Dean")){ %>
-                <li class="dean"><a href="pages/cardSystem/searchByGroup.jsp"><i class="fa fa-circle-o"></i> 按年级查询</a></li>
-                <%} %>
-                <%if(authority.equals("Instructor")){%> 
-				<li class="instruct"><a href="pages/cardSystem/searchByGroup.jsp"><i class="fa fa-circle-o"></i> 年级整体查询</a></li>
-				<%} %>
+               <c:if test="${sessionScope.authority=='Admin'}">
+                  <li class="admin"><a href="pages/cardSystem/searchByGroup.jsp"><i class="fa fa-circle-o"></i> 按学院查询</a></li>
+               </c:if>
+               <c:if test="${sessionScope.authority=='Dean'}">
+                  <li class="dean"><a href="pages/cardSystem/searchByGroup.jsp"><i class="fa fa-circle-o"></i> 按年级查询</a></li>
+               </c:if>
+               <c:if test="${sessionScope.authority=='Instructor'}">
+                  <li class="instruct"><a href="pages/cardSystem/searchByGroup.jsp"><i class="fa fa-circle-o"></i> 年级整体查询</a></li>
+               </c:if>
                 <li><a href="pages/cardSystem/searchByPerson.jsp"><i class="fa fa-circle-o"></i> 按学生查询</a></li>
               </ul>
             </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-pie-chart"></i>
-                 <span>统计分析</span>
+                <span>统计分析</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <%if(authority.equals("Admin")){ %>
-                <li class="admin"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 全校统计</a></li>
-                <%} %>
-                <%if(authority.equals("Dean")){ %>
+                <c:if test="${sessionScope.authority=='Admin'}">
+                  <li class="admin"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 全校统计</a></li>
+                </c:if>
+                <c:if test="${sessionScope.authority=='Dean'}">
 				<li class="dean"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 学院统计</a></li>
-				<%} %>
-				<%if(authority.equals("Instructor")){%> 
+				</c:if>
+				<c:if test="${sessionScope.authority=='Instructor'}">
 				<li class="instruct"><a href="pages/cardSystem/statisticalResultsInstructor.jsp"><i class="fa fa-circle-o"></i> 年级统计</a></li>
-				<%} %>
-				<%if(authority.equals("Admin")){ %>
+				</c:if>
+				<c:if test="${sessionScope.authority=='Admin'}">
 				<li class="admin"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 学院对比</a></li>
-				<%} %>
-				<%if(authority.equals("Dean")){ %>
+				 </c:if>
+				<c:if test="${sessionScope.authority=='Dean'}">
 				<li class="dean"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 年级对比</a></li>
-                <%} %>
+                </c:if>
                 <li class="admin dean instruct"><a href="MapStatistics"><i class="fa fa-circle-o"></i> 生源差异</a></li>
               </ul>
             </li>
@@ -493,4 +431,4 @@
   </body>
 </html>
 
-<%} %>
+
