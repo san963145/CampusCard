@@ -154,11 +154,7 @@
                 <li><a href="pages/cardSystem/ratingsResults.jsp"><i class="fa fa-circle-o"></i> 查看结果</a></li>
               </ul>
             </li>
-			<li>
-              <a href="pages/cardSystem/consumptionForecast.jsp">
-                 <i class="fa fa-line-chart"></i> <span>消费预测</span>
-              </a>
-            </li>
+			
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-signal"></i> <span>助学金推荐</span>
