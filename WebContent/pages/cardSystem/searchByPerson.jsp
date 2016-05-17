@@ -1,7 +1,6 @@
 <%@page import="com.sys.card.bean.*" import="com.sys.card.daoImpl.*" import="com.wiscom.is.*, java.net.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList" import="java.util.List" import="java.util.Iterator" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -10,11 +9,9 @@
   <head>
   
 <%
-   String result=(String)request.getAttribute("result");
-   StudentPoint studentPoint=(StudentPoint)request.getAttribute("studentPoint");
-   List list=(List)request.getAttribute("list");
-   String sname=(String)request.getAttribute("sname");
-   String accessFlag=(String)request.getAttribute("accessFlag");
+   
+   StudentPoint student=(StudentPoint)request.getAttribute("studentPoint");
+   String name=(String)request.getAttribute("sname");
 %>
 
 
@@ -117,21 +114,15 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <c:if test="${sessionScope.authority=='Admin'}">
-                  <li class="admin"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 全校统计</a></li>
-                </c:if>
-                <c:if test="${sessionScope.authority=='Dean'}">
-				<li class="dean"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 学院统计</a></li>
-				</c:if>
-				<c:if test="${sessionScope.authority=='Instructor'}">
-				<li class="instruct"><a href="pages/cardSystem/statisticalResultsInstructor.jsp"><i class="fa fa-circle-o"></i> 年级统计</a></li>
-				</c:if>
+               
 				<c:if test="${sessionScope.authority=='Admin'}">
 				<li class="admin"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 学院对比</a></li>
 				 </c:if>
 				<c:if test="${sessionScope.authority=='Dean'}">
 				<li class="dean"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 年级对比</a></li>
                 </c:if>
+                <li class="admin dean instruct"><a href="pages/statistics/heatMap.jsp"><i class="fa fa-circle-o"></i> 用餐时间</a></li>
+                
                 <li class="admin dean instruct"><a href="MapStatistics"><i class="fa fa-circle-o"></i> 生源差异</a></li>
               </ul>
             </li>
@@ -228,92 +219,218 @@
 				</div><!-- /.box-body -->
 			  </div><!-- /.box -->
 			  
-			  <%if(result!=null){ %>
-			  <div class="box box-info">
-				<div class="box-header with-border">
-				  <h3 class="box-title">查询结果</h3>
-				</div><!-- /.box-header -->
-				<%if(studentPoint!=null){ %>
-				    <%if(accessFlag.equals("1")){ %>
-				<div class="box-body">
-				  <table id="result" class="table table-bordered table-hover">
-					<thead>
-					  <tr>
-						<th>学号</th>
-						<th>姓名</th>
-						<th>性别</th>
-						<th>去年得过助学金</th>
-						<th>总值</th>
-						<th>用餐次数</th>
-						<th>每餐均值</th>
-						<th>午餐总值</th>
-						<th>午餐次数</th>
-						<th>午餐均值</th>
-						<th>晚餐总值</th>
-						<th>晚餐次数</th>
-						<th>晚餐均值</th>
-					  </tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><%=studentPoint.getSno() %></td>
-							<td><%=sname %></td>
-							<td><%=studentPoint.getGender() %></td>
-							<td><%=studentPoint.getHasScholarship() %></td>
-						    <td><%=studentPoint.getTotal() %></td>
-							<td><%=studentPoint.getCount() %></td>
-							<td><%=studentPoint.getAverage() %></td>
-							<td><%=studentPoint.getLunchTTL() %></td>
-							<td><%=studentPoint.getLunchCNT() %></td>
-							<td><%=studentPoint.getLunchAVG() %></td>
-							<td><%=studentPoint.getSupperTTL() %></td>
-							<td><%=studentPoint.getSupperCNT() %></td>
-							<td><%=studentPoint.getSupperAVG() %></td>					
-						</tr>
-					</tbody>
-				  </table>
-				</div><!-- /.box-body -->
-				  <%}else{ %><h4><b>&nbsp;该学生不在访问权限内！</b></h4><%} %>
-				<%}else{ %><h4><b>&nbsp;无该项数据或学号不存在！</b></h4><%} %>
+			  
+			<c:if test="${not empty result}">
+			    <div class="box box-info">
+				  <div class="box-header with-border">
+				    <h3 class="box-title">查询结果</h3>
+				  </div><!-- /.box-header -->
+				<c:choose>
+				   <c:when test="${not empty studentPoint}">  <!-- 数据 -->
+				      <c:choose>
+				           <c:when test="${accessFlag=='1'}">    <!-- 权限-->
+				           
+				           
+										<div class="box-body">
+											<table id="result" class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>学号</th>
+														<th>姓名</th>
+														<th>性别</th>
+														<th>学院</th>
+														<th>年级</th>
+														<th>专业</th>
+														<th>早餐均值</th>
+														<th>午餐均值</th>
+														<th>晚餐均值</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><%=student.getSno()%></td>
+														<td><%=name%></td>
+														<td><%=student.getGender()%></td>
+														<td>${department}</td>
+														<td>${grade}</td>
+														<td>${major}</td>
+														<c:forEach items="${ave}" var="average">
+															<td><c:out value="${average}" /></td>
+														</c:forEach>
+														</tr>
+												</tbody>
+											</table>
+										</div>
+										<!-- /.box-body -->
+
+							</c:when>
+				        <c:otherwise>
+				            <h4><b>&nbsp;该学生不在访问权限内！</b></h4>
+				        </c:otherwise>
+				      </c:choose>
+				   </c:when>
+				   <c:otherwise>
+				       <h4><b>&nbsp;无该项数据或学号不存在！</b></h4>
+				   </c:otherwise>
+
+				</c:choose>
+				</div><!-- /.box -->
+			</c:if>
 				
-			  </div><!-- /.box -->
-			  <%if(studentPoint!=null && accessFlag.equals("1")){ %>
+			  
+
+ 
+             <c:if test="${not empty studentPoint && not empty accessFlag}">
+            
 			  <div class="col-md-6">
-				 <!-- DONUT CHART -->
+	
 				  <div class="box box-info">
 				    <div class="box-header with-border">
-					 <h3 class="box-title">各餐消费比例饼状图(单位:元)</h3>
-					 <div class="pull-right">				    
-						<i class="fa fa-square" style="color:#f56954"></i>午餐
-						<i class="fa fa-square" style="color:#00a65a"></i>晚餐
-					  </div>
+					 <h3 class="box-title">${sname} 早餐消费历史记录(单位:元)</h3>					 
 					</div>
 					  
-					<div class="box-body">
-						<canvas id="pieChart" style="height:250px"></canvas>
-					</div><!-- /.box-body -->
-				  </div><!-- /.box -->
+					<div class="box-body" style="height:335px; width:515px">
+						<table class="result table table-bordered table-hover">
+						
+												<thead>
+													<tr>
+														<th>日期</th>
+														<th>早餐值</th>
+														<th>学院平均水平</th>
+													</tr>
+												</thead>
+										<tbody>
+
+											<c:forEach items="${breakfastList}" var="breakfast">
+												<tr>
+													<td><c:out value="${breakfast.logicDate}" /></td>
+													<td><c:out value="${breakfast.cost}" /></td>
+													<td><c:out value="${breakfast.average}" /></td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
+					</div>
+				  </div>
 			  </div>
 			  <div class="col-md-6">
-				<!-- BAR CHART -->
+  
 				  <div class="box box-info">
 					<div class="box-header with-border">
-					  <h3 class="box-title">学生消费统计柱状图(单位:元)</h3>
+					  <h3 class="box-title">${sname} 早餐消费历史统计(单位:元)</h3>
 					  <div class="pull-right">				    
-						<i class="fa fa-square" style="color:rgba(60,141,188,0.9)"></i>个人消费水平
-						<i class="fa fa-square" style="color:#00a65a"></i>全校平均水平
+						<i class="fa fa-square" style="color:rgba(194,53,49,0.9)"></i>个人早餐消费
+						<i class="fa fa-square" style="color:rgba(47,69,84,0.9)"></i>学院平均水平
 					  </div>
 					</div>
 					  
-					<div class="box-body">
-					  <div class="chart">
-						<canvas id="barChart" style="height:250px"></canvas>
-					  </div>
-					</div><!-- /.box-body -->
-				  </div><!-- /.box -->
+					<div class="box-body" id="lineChartBreakfast" style="height:335px; width:515px">
+					 
+					</div>
+				  </div>
 			  </div>
-			  <%} %>
-			  <%} %>
+			  
+			  <div class="col-md-6">
+	
+				  <div class="box box-info">
+				    <div class="box-header with-border">
+					 <h3 class="box-title">${sname} 午餐消费历史记录(单位:元)</h3>					 
+					</div>
+					  
+					<div class="box-body" style="height:335px; width:515px">
+						<table class="result table table-bordered table-hover">
+						
+												<thead>
+													<tr>
+														<th>日期</th>
+														<th>午餐值</th>
+														<th>学院平均水平</th>
+													</tr>
+												</thead>
+										<tbody>
+
+											<c:forEach items="${lunchList}" var="lunch">
+												<tr>
+													<td><c:out value="${lunch.logicDate}" /></td>
+													<td><c:out value="${lunch.cost}" /></td>
+													<td><c:out value="${lunch.average}" /></td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
+					</div>
+				  </div>
+			  </div>
+			  <div class="col-md-6">
+  
+				  <div class="box box-info">
+					<div class="box-header with-border">
+					  <h3 class="box-title">${sname} 午餐消费历史统计(单位:元)</h3>
+					  <div class="pull-right">				    
+						<i class="fa fa-square" style="color:rgba(194,53,49,0.9)"></i>个人午餐消费
+						<i class="fa fa-square" style="color:rgba(47,69,84,0.9)"></i>学院平均水平
+					  </div>
+					</div>
+					  
+					<div class="box-body" id="lineChartLunch" style="height:335px; width:515px">
+					 
+					</div>
+				  </div>
+			  </div>
+			  
+			  <div class="col-md-6">
+	
+				  <div class="box box-info">
+				    <div class="box-header with-border">
+					 <h3 class="box-title">${sname} 晚餐消费历史记录(单位:元)</h3>					 
+					</div>
+					  
+					<div class="box-body" style="height:335px; width:515px">
+						<table class="result table table-bordered table-hover">
+						
+												<thead>
+													<tr>
+														<th>日期</th>
+														<th>晚餐值</th>
+														<th>学院平均水平</th>
+													</tr>
+												</thead>
+										<tbody>
+
+											<c:forEach items="${supperList}" var="supper">
+												<tr>
+													<td><c:out value="${supper.logicDate}" /></td>
+													<td><c:out value="${supper.cost}" /></td>
+													<td><c:out value="${supper.average}" /></td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
+					</div>
+				  </div>
+			  </div>
+			  <div class="col-md-6">
+  
+				  <div class="box box-info">
+					<div class="box-header with-border">
+					  <h3 class="box-title">${sname} 晚餐消费历史统计(单位:元)</h3>
+					  <div class="pull-right">				    
+						<i class="fa fa-square" style="color:rgba(194,53,49,0.9)"></i>个人晚餐消费
+						<i class="fa fa-square" style="color:rgba(47,69,84,0.9)"></i>全校平均水平
+					  </div>
+					</div>
+					  
+					<div class="box-body" id="lineChartSupper" style="height:335px; width:515px">
+					 
+					</div>
+				  </div>
+			  </div>
+              </c:if>
+
+
           </div><!-- /.row (main row) -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
@@ -346,142 +463,49 @@
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
 	<!-- ChartJS 1.0.1 -->
     <script src="plugins/chartjs/Chart.min.js"></script>
+    
+    <script src="dist/js/echarts-all-3.js"></script>
 	<!-- my js -->
     <script src="dist/js/my.js"></script>
 	
 	<!-- Page script -->
-	<%if(result!=null && studentPoint!=null){ %>
-    <script>
-     $(function () {        
-    	 //Initialize Select2 Elements
+	<script>
+     $(function () {
+        //Initialize Select2 Elements
         $(".select2").select2();
-		
-		$("#result").DataTable({
-		  "bSort": false,
-		  "bPaginage":false,
-		  "sInfo":"",
-          "lengthChange": false,
-          "searching": false,
-          "autoWidth": false,
-          "oLanguage": {
-  			"sLengthMenu": "每页显示 _MENU_ 条记录",
-  			"sZeroRecords": "没有匹配结果",
-  			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
-  			"sInfoEmpty": "没有数据",
-  			"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-  			"sSearch": "搜索：",
-  			"oPaginate": {
-  			"sFirst": "<<",
-  			"sPrevious": "<",
-  			"sNext": ">",
-  			"sLast": ">>"
-  			}
-  			}
-		});
-		
-		var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
-        var pieChart = new Chart(pieChartCanvas);     
-        var PieData = [
-          {
-            value: <%=studentPoint.getLunchTTL() %>,
-            color: "#f56954",
-            highlight: "#f56954",
-            label: "午餐"
-          },
-          {
-            value: <%=studentPoint.getSupperTTL() %>,
-            color: "#00a65a",
-            highlight: "#00a65a",
-            label: "晚餐"
-          }
-        ];
-        var pieOptions = {
-          //Boolean - Whether we should show a stroke on each segment
-          segmentShowStroke: false,
-          //Number - Amount of animation steps
-          animationSteps: 10,
-          //String - Animation easing effect
-          animationEasing: "easeOutBounce",
-          //Boolean - Whether we animate the rotation of the Doughnut
-          animateRotate: true,
-          //Boolean - Whether we animate scaling the Doughnut from the centre
-          animateScale: false,
-          //Boolean - whether to make the chart responsive to window resizing
-          responsive: true,
-          // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-          maintainAspectRatio: true,
-		  scaleShowLabels: true
-        };
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        pieChart.Pie(PieData, pieOptions);
-		
-		//-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas = $("#barChart").get(0).getContext("2d");
-        var barChart = new Chart(barChartCanvas);
-        var barChartData = {
-          labels: ["总平均值","午餐平均值","晚餐平均值"],
-          datasets: [
-            {
-              label: "Electronics",
-              fillColor: "rgba(60,141,188,0.9)",
-              strokeColor: "rgba(60,141,188,0.8)",
-              pointColor: "#3b8bba",
-              pointStrokeColor: "rgba(60,141,188,1)",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(60,141,188,1)",
-              data: [<%=studentPoint.getAverage()%>,<%=studentPoint.getLunchAVG()%>,<%=studentPoint.getSupperAVG()%>]
-            },
-            {
-              label: "Digital Goods",
-              fillColor: "rgba(210, 214, 222, 1)",
-              strokeColor: "rgba(210, 214, 222, 1)",
-              pointColor: "rgba(210, 214, 222, 1)",
-              pointStrokeColor: "#c1c7d1",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,220,220,1)",
-              data: [<%=((Object[])list.get(0))[0].toString()%>,<%=((Object[])list.get(0))[1].toString()%>,<%=((Object[])list.get(0))[2].toString()%>]
-            }
-          ]
-        };
-        barChartData.datasets[1].fillColor = "#00a65a";
-        barChartData.datasets[1].strokeColor = "#00a65a";
-        barChartData.datasets[1].pointColor = "#00a65a";
-        var barChartOptions = {
-          //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-          scaleBeginAtZero: true,
-          //Boolean - Whether grid lines are shown across the chart
-          scaleShowGridLines: true,
-          //String - Colour of the grid lines
-          scaleGridLineColor: "rgba(0,0,0,.05)",
-          //Number - Width of the grid lines
-          scaleGridLineWidth: 1,
-          //Boolean - Whether to show horizontal lines (except X axis)
-          scaleShowHorizontalLines: true,
-          //Boolean - Whether to show vertical lines (except Y axis)
-          scaleShowVerticalLines: true,
-          //Boolean - If there is a stroke on each bar
-          barShowStroke: true,
-          //Number - Pixel width of the bar stroke
-          barStrokeWidth: 2,
-          //Number - Spacing between each of the X value sets
-          barValueSpacing: 5,
-          //Number - Spacing between data sets within X values
-          barDatasetSpacing: 1,
-      
-          //Boolean - whether to make the chart responsive
-          responsive: true,
-          maintainAspectRatio: true
-        };
-
-        barChartOptions.datasetFill = false;
-        barChart.Bar(barChartData, barChartOptions);
-		
-
+        
+		$(".result").DataTable({
+			"aLengthMenu": [[5], [5]],
+			"bStateSave": true,
+		    "oLanguage": {
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": "没有匹配结果",
+			"sInfo": "第_START_至_END_项，共_TOTAL_项",
+			"sInfoEmpty": "没有数据",
+			"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+			"sSearch": "搜索：",
+			"oPaginate": "",
+			}
+		} );
       });
     </script>
-    <%}%>
+   <c:if test="${not empty breakfastList}"> 
+    <script>
+       ${breakfastLine}
+    
+    </script>
+    </c:if>
+    <c:if test="${not empty lunchLine}"> 
+    <script>
+       ${lunchLine}
+    
+    </script>
+    </c:if>
+    <c:if test="${not empty supperLine}"> 
+    <script>
+       ${supperLine}
+    
+    </script>
+    </c:if>
   </body>
 </html>

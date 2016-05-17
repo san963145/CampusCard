@@ -40,7 +40,7 @@ public class DrawComparison extends HttpServlet {
 		User user=(User) session.getAttribute("user");
 		if(user==null)   //直接地址栏方式访问
 		{
-			request.getRequestDispatcher("pages/cardSystem/cardSystem.jsp").forward(request, response);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		else
 		{

@@ -98,7 +98,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List selectByDMG(String department,String major,int grade)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select s.sno,t.sname,s.gender,s.hasScholarship,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and substr(t.classNo,3,4) = ? and t.grade=?";
+    	 String hql="select s.sno,t.sname,s.gender,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint2 s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and substr(t.classNo,3,4) = ? and t.grade=?";
     	 Query query=session.createQuery(hql);
          query.setString(0,department);
          query.setString(1,major);
@@ -107,7 +107,6 @@ public class StudentPointDaoImpl implements StudentPointDao{
          result=query.list();
          session.clear();
          session.close();
-         System.out.println(19);
          return result;
      }
      /**
@@ -239,7 +238,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List selectDrawByDepartmentComparison()
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select t.department,round(avg(s.lunchTTL),2),round(avg(s.supperTTL),2),round(avg(s.total),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) group by t.department order by t.department";
+    	 String hql="select t.department,round(avg(s.lunchAVG),2),round(avg(s.supperAVG),2),round(avg(s.average),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) group by t.department order by t.department";
     	 Query query=session.createQuery(hql);
          List result=query.list();
          session.clear();
@@ -260,7 +259,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List selectDrawByDepartmentComparison(String gender)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select t.department,round(avg(s.total),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and s.gender=? group by t.department order by t.department";
+    	 String hql="select t.department,round(avg(s.average),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and s.gender=? group by t.department order by t.department";
     	 Query query=session.createQuery(hql);
          query.setString(0,gender);
          List result=query.list();
@@ -324,7 +323,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List selectDrawByGradeComparison(String department)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select t.grade,round(avg(s.lunchTTL),2),round(avg(s.supperTTL),2),round(avg(s.total),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? group by t.grade order by t.grade";
+    	 String hql="select t.grade,round(avg(s.lunchAVG),2),round(avg(s.supperAVG),2),round(avg(s.average),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? group by t.grade order by t.grade";
     	 Query query=session.createQuery(hql);
          query.setString(0,department);
          List result=query.list();
@@ -345,7 +344,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List selectDrawByGradeComparison(String department,String gender)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select t.grade,round(avg(s.lunchTTL),2),round(avg(s.supperTTL),2),round(avg(s.total),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and s.gender=? group by t.grade order by t.grade";
+    	 String hql="select t.grade,round(avg(s.lunchAVG),2),round(avg(s.supperAVG),2),round(avg(s.average),2) from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and s.gender=? group by t.grade order by t.grade";
     	 Query query=session.createQuery(hql);
          query.setString(0,department);
          query.setString(1,gender);

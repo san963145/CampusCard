@@ -176,21 +176,14 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <c:if test="${sessionScope.authority=='Admin'}">
-                  <li class="admin"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 全校统计</a></li>
-                </c:if>
-                <c:if test="${sessionScope.authority=='Dean'}">
-				<li class="dean"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 学院统计</a></li>
-				</c:if>
-				<c:if test="${sessionScope.authority=='Instructor'}">
-				<li class="instruct"><a href="pages/cardSystem/statisticalResultsInstructor.jsp"><i class="fa fa-circle-o"></i> 年级统计</a></li>
-				</c:if>
+                
 				<c:if test="${sessionScope.authority=='Admin'}">
 				<li class="admin"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 学院对比</a></li>
 				 </c:if>
 				<c:if test="${sessionScope.authority=='Dean'}">
 				<li class="dean"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 年级对比</a></li>
                 </c:if>
+                <li class="admin dean instruct"><a href="pages/statistics/heatMap.jsp"><i class="fa fa-circle-o"></i> 用餐时间</a></li>
                 <li class="admin dean instruct"><a href="MapStatistics"><i class="fa fa-circle-o"></i> 生源差异</a></li>
               </ul>
             </li>

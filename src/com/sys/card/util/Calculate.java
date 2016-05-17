@@ -9,12 +9,16 @@ import java.util.List;
 
 
 
+
+
 import com.sys.card.bean.DepartmentPoint;
 import com.sys.card.dao.DepartmentPointDao;
+import com.sys.card.dao.InitProcess;
 import com.sys.card.dao.PointExceptionDao;
 import com.sys.card.dao.StudentInfoDao;
 import com.sys.card.dao.StudentPointDao;
 import com.sys.card.daoImpl.DepartmentPointDaoImpl;
+import com.sys.card.daoImpl.InitProcessImpl;
 import com.sys.card.daoImpl.PointExceptionDaoImpl;
 import com.sys.card.daoImpl.StudentInfoDaoImpl;
 import com.sys.card.daoImpl.StudentPointDaoImpl;
@@ -28,14 +32,19 @@ public class Calculate {
       private static StudentPointDao studentPointDao=new StudentPointDaoImpl();
 	  private static PointExceptionDao pointExceptionDao=new PointExceptionDaoImpl();
       private static StudentInfoDao studentInfoDao=new StudentInfoDaoImpl();
-      
+      private static InitProcess initProcessDao=new InitProcessImpl();
 	  
 	/**
      *  处理原始数据
      */	
 	  public static synchronized void initCalculate()
 	  {
-		  
+		  /*initProcessDao.generateHistrjnTemp();
+		  initProcessDao.generateBreakfastRecord();
+		  initProcessDao.generateLunchfastRecord();
+		  initProcessDao.generateSupperfastRecord();
+		  initProcessDao.generateStudentPoint();*/
+		  initProcessDao.callInitProcess();
 	  }
       /**
        *  计算学院平均消费水平的各项数据，可外部调用

@@ -142,5 +142,28 @@ public class StudentInfoDaoImpl implements StudentInfoDao{
 	       	session.close();
 	       	return flag;
 	   	}
+		@Override
+		public String getDepartmentGradeBySno(String sno) {
+			// TODO Auto-generated method stub
+			Session session=SessionManager.getSession();
+		  	   String hql="select s.department,s.grade from StudentInfo s where trim(s.sno)=?";
+		  	   Query query=session.createQuery(hql);
+		       query.setString(0,sno);
+		       List list=query.list();
+		       String result=null;
+		       if(list!=null)
+		       {
+		      	 if(list.size()!=0)
+		      	 {
+		      		 Object[] obj=(Object[]) list.get(0);
+		      		 String d=obj[0].toString();
+		      		 String g=obj[1].toString();
+		      		 result=d+"#"+g;
+		      	 }
+		       }
+		       session.clear();
+		       session.close();      
+		       return result;
+		}
 
 }

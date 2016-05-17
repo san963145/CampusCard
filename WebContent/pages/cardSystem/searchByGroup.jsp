@@ -133,21 +133,15 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <c:if test="${sessionScope.authority=='Admin'}">
-                  <li class="admin"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 全校统计</a></li>
-                </c:if>
-                <c:if test="${sessionScope.authority=='Dean'}">
-				<li class="dean"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 学院统计</a></li>
-				</c:if>
-				<c:if test="${sessionScope.authority=='Instructor'}">
-				<li class="instruct"><a href="pages/cardSystem/statisticalResultsInstructor.jsp"><i class="fa fa-circle-o"></i> 年级统计</a></li>
-				</c:if>
+                
 				<c:if test="${sessionScope.authority=='Admin'}">
 				<li class="admin"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 学院对比</a></li>
 				 </c:if>
 				<c:if test="${sessionScope.authority=='Dean'}">
 				<li class="dean"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 年级对比</a></li>
                 </c:if>
+                <li class="admin dean instruct"><a href="pages/statistics/heatMap.jsp"><i class="fa fa-circle-o"></i> 用餐时间</a></li>
+                
                 <li class="admin dean instruct"><a href="MapStatistics"><i class="fa fa-circle-o"></i> 生源差异</a></li>
               </ul>
             </li>
@@ -290,7 +284,6 @@
 							<th>学号</th>
 							<th>姓名</th>
 							<th>性别</th>
-							<th>去年得过助学金</th>
 							<th>总值</th>
 							<th>用餐次数</th>
 							<th>每餐均值</th>
@@ -312,16 +305,15 @@
 								<td><%=(String)objects[0]%></td>
 								<td><%=(String)objects[1]%></td>
 								<td><%=(String)objects[2]%></td>
-						        <td><%=(String)objects[3]%></td>
-								<td><%=(Double)objects[4]%></td>
-								<td><%=(Integer)objects[5]%></td>
+								<td><%=(Double)objects[3]%></td>
+								<td><%=(Integer)objects[4]%></td>
+								<td><%=(Double)objects[5]%></td>
 								<td><%=(Double)objects[6]%></td>
-								<td><%=(Double)objects[7]%></td>
-								<td><%=(Integer)objects[8]%></td>
+								<td><%=(Integer)objects[7]%></td>
+								<td><%=(Double)objects[8]%></td>
 								<td><%=(Double)objects[9]%></td>
-								<td><%=(Double)objects[10]%></td>
-								<td><%=(Integer)objects[11]%></td>
-								<td><%=(Double)objects[12]%></td>
+								<td><%=(Integer)objects[10]%></td>
+								<td><%=(Double)objects[11]%></td>
 								<td><a href="SearchByPerson?sno=<%=(String)objects[0]%>">详细</a></td>
 						    </tr>
 						    <%}%>

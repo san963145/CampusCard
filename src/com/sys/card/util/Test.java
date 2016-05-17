@@ -20,13 +20,7 @@ public class Test {
 	private static String pwd="StuSys12345678";
 	
 	public static String basePath=null;
-	
-	public static void main(String[] args) throws Exception
-	{
-		add();
-	}
-
-	
+		
 	public static void read() throws Exception
 	{
         Class.forName(driverClass);		
@@ -107,5 +101,14 @@ public class Test {
 		}   //while
 		
 	}
+	
+	
+	
+	public static void main(String[] args) throws Exception
+    {
+		read();
+		add();
+		
+    }
 
 }

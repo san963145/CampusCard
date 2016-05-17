@@ -8,6 +8,8 @@ public interface StudentInfoDao {
 	 public String selectMajorBySno(String sno);        //get专业
 	 public List selectGMBySno(String sno);             //get年级、班级号
 	 
+	 public String getDepartmentGradeBySno(String sno); 
+	 
 	 public List getGradesByDepartment(String department);
 	 public List getMajorNumByDepartment(String department);
 	 /**

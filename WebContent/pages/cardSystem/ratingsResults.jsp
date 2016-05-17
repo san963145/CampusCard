@@ -130,21 +130,15 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <c:if test="${sessionScope.authority=='Admin'}">
-                  <li class="admin"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 全校统计</a></li>
-                </c:if>
-                <c:if test="${sessionScope.authority=='Dean'}">
-				<li class="dean"><a href="DrawStatistics"><i class="fa fa-circle-o"></i> 学院统计</a></li>
-				</c:if>
-				<c:if test="${sessionScope.authority=='Instructor'}">
-				<li class="instruct"><a href="pages/cardSystem/statisticalResultsInstructor.jsp"><i class="fa fa-circle-o"></i> 年级统计</a></li>
-				</c:if>
+                
 				<c:if test="${sessionScope.authority=='Admin'}">
 				<li class="admin"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 学院对比</a></li>
 				 </c:if>
 				<c:if test="${sessionScope.authority=='Dean'}">
 				<li class="dean"><a href="DrawComparison"><i class="fa fa-circle-o"></i> 年级对比</a></li>
                 </c:if>
+                <li class="admin dean instruct"><a href="pages/statistics/heatMap.jsp"><i class="fa fa-circle-o"></i> 用餐时间</a></li>
+                
                 <li class="admin dean instruct"><a href="MapStatistics"><i class="fa fa-circle-o"></i> 生源差异</a></li>
               </ul>
             </li>
@@ -279,31 +273,8 @@
 			
 			
 			<%if(resultList!=null){if(resultList.size()>0){ %>
-			<div class="col-xs-12 col-md-6">
-				 <div class="box box-info">
-				<div class="box-header with-border">
-				      <%if(department!=null && grade!=null &&major!=null){ %>
-					  <h3 class="box-title"><%=department %><%=grade %>级 <%=major %>专业 学生消费评分分布图</h3>
-					  <div class="pull-right">				    
-						(单位:人数)
-					  </div>
-					  <%}else{ %>
-					  <h3 class="box-title">学生消费评分分布图</h3>
-					  <div class="pull-right">				    
-						(单位:人数)
-					  </div>
-					  <%} %>
-				   <div class="pull-right">
-					<h3 class="box-title"></h3>
-				  </div>
-				</div><!-- /.box-header -->
-				<div class="box-body">
-					    <canvas id="barChart1" style="height:350px"></canvas>					
-				</div><!-- /.box-body -->
-			  </div><!-- /.box -->
-			</div>
-			
-			<div class="col-xs-12 col-md-6">
+						
+			<div class="col-xs-12 col-md-12">
 				 <div class="box box-info">
 				<div class="box-header with-border">
 				      <%if(department!=null && grade!=null){ %>
@@ -346,6 +317,30 @@
 
 						</tbody>
                   </table>					
+				</div><!-- /.box-body -->
+			  </div><!-- /.box -->
+			</div>
+			
+			<div class="col-xs-12 col-md-12">
+				 <div class="box box-info">
+				<div class="box-header with-border">
+				      <%if(department!=null && grade!=null &&major!=null){ %>
+					  <h3 class="box-title"><%=department %><%=grade %>级 <%=major %>专业 学生消费评分分布图</h3>
+					  <div class="pull-right">				    
+						(单位:人数)
+					  </div>
+					  <%}else{ %>
+					  <h3 class="box-title">学生消费评分分布图</h3>
+					  <div class="pull-right">				    
+						(单位:人数)
+					  </div>
+					  <%} %>
+				   <div class="pull-right">
+					<h3 class="box-title"></h3>
+				  </div>
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					    <canvas id="barChart1" ></canvas>					
 				</div><!-- /.box-body -->
 			  </div><!-- /.box -->
 			</div>
@@ -410,24 +405,22 @@
         $(".select2").select2();
         
         $("#result2").DataTable({
-			"aLengthMenu": [[5,10,20,50,-1], [5, 10, 20, 50, "All"]],
-			"bStateSave": false,
-			"bLengthChange":true,
-			"oLanguage": {
-				"sLengthMenu": "每页显示 _MENU_ 条记录",
-				"sZeroRecords": "没有匹配结果",
-				"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
-				"sInfoEmpty": "没有数据",
-				"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-				"sSearch": "搜索：",
-				"oPaginate": {
-				"sFirst": "<<",
-				"sPrevious": "<",
-				"sNext": ">",
-				"sLast": ">>"
-				}
-				}
-			
+			"aLengthMenu": [[5, 10, 20, 50, 100, -1], [5, 10, 20, 50, 100, "All"]],
+			"bStateSave": true,
+		    "oLanguage": {
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": "没有匹配结果",
+			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
+			"sInfoEmpty": "没有数据",
+			"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+			"sSearch": "搜索：",
+			"oPaginate": {
+			"sFirst": "<<",
+			"sPrevious": "<",
+			"sNext": ">",
+			"sLast": ">>"
+			}
+			}
 		} );
         var barChartCanvas1 = $("#barChart1").get(0).getContext("2d");
         var barChart1 = new Chart(barChartCanvas1);
