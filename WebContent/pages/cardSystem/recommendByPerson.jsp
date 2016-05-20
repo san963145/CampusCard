@@ -245,7 +245,18 @@
 						      String[] s=(String[])it.next();%>
 							<tr>
 								<td><%=s[0] %></td>
-								<td><%=s[1] %></td>
+								<%if(s[1].equals("1")) {%>
+								<td><img src="img/1.png"/></td>
+								<%} %>
+								<%if(s[1].equals("2")) {%>
+								<td><img src="img/2.png"/></td>
+								<%} %>
+								<%if(s[1].equals("3")) {%>
+								<td><img src="img/3.png"/></td>
+								<%} %>
+								<%if(s[1].equals("4")) {%>
+								<td><img src="img/4.png"/></td>
+								<%} %>
 								<td><%=s[2] %></td>
 						    </tr>
 						    <%} %>
@@ -282,7 +293,18 @@
 								<td><%=studentResult[2] %></td>
 								<td><%=studentResult[3] %></td>
 								<td><%=studentResult[4] %></td>
-								<td><%=studentResult[5] %></td>
+								<%if(studentResult[5].equals("1")) {%>
+								<td><img src="img/1.png"/></td>
+								<%} %>
+								<%if(studentResult[5].equals("2")) {%>
+								<td><img src="img/2.png"/></td>
+								<%} %>
+								<%if(studentResult[5].equals("3")) {%>
+								<td><img src="img/3.png"/></td>
+								<%} %>
+								<%if(studentResult[5].equals("4")) {%>
+								<td><img src="img/4.png"/></td>
+								<%} %>
 								<td><a href="SearchByPerson?sno=<%=studentResult[0]%>"><%=studentResult[6] %></a></td>
 						    </tr>
 				        </tbody>	

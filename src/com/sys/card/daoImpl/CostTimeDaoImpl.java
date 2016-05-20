@@ -103,6 +103,7 @@ public class CostTimeDaoImpl implements CostTimeDao{
 			String s=ChartGenerator.generatorHeatMap(list, months);
 			System.out.println(s);
 
+			
 	}
 
 	@Override

@@ -332,30 +332,7 @@ public class Calculate {
        {
     		double y=Math.abs(u);
     		double y2 = y*y;
-    		double z=Math.exp(-0.5 * y2) * 0.398942280401432678;
-    		double p=0;
-    		int k=28;
-    		double s = -1;
-    		double fj=k;
-    		if(y>3)
-    		{
-    		  for(int i=1;i<=k;i++)
-    		  {
-    		   p = fj / (y+p);
-    		   fj=fj - 1.0;
-    		  }
-    		  p = z / (y+p);
-    		}
-    		else
-    		{
-    		  for(int i=1;i<=k;i++)
-    		  {
-    		    p = fj * y2 / (2.0*fj +1.0 + s * p);
-    		    s = -s;
-    		    fj = fj - 1.0;
-    		  }
-    		  p = 0.5 - z * y / ( 1 - p );
-    		}
+    		double p=Math.exp(-0.5 * y2) * 0.398942280401432678;    		
     		if(u>0) p = 1.0 - p;
     		return p;
        }

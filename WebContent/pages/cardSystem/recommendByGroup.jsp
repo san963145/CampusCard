@@ -270,7 +270,7 @@
 			</div>
 			
 			<%if(result!=null){if(result.size()>0){ %>
-			<div class="col-md-6">
+			<div class="col-md-12">
 				 <!-- DONUT CHART -->
 				  <div class="box box-info">
 					<div class="box-header with-border">
@@ -296,7 +296,18 @@
 						      String[] s=(String[])it.next();%>
 							<tr>
 								<td><%=s[0] %></td>
-								<td><%=s[1] %></td>
+								<%if(s[1].equals("1")) {%>
+								<td><img src="img/1.png"/></td>
+								<%} %>
+								<%if(s[1].equals("2")) {%>
+								<td><img src="img/2.png"/></td>
+								<%} %>
+								<%if(s[1].equals("3")) {%>
+								<td><img src="img/3.png"/></td>
+								<%} %>
+								<%if(s[1].equals("4")) {%>
+								<td><img src="img/4.png"/></td>
+								<%} %>
 								<td><%=s[2] %></td>
 						    </tr>
 						    <%} %>
@@ -306,7 +317,7 @@
 					</div><!-- /.box-body -->
 				  </div><!-- /.box -->
 			  </div>
-			  <div class="col-md-6">
+			  <div class="col-md-12">
 				<!-- BAR CHART -->
 				  <div class="box box-info">
 					<div class="box-header with-border">
@@ -340,7 +351,18 @@
 								<td><%=r.getDepartment()%></td>
 						        <td><%=r.getMajor()%></td>
 								<td><%=r.getGrade()%></td>
-								<td><%=r.getPoint()%></td>
+								<%if(r.getPoint().equals("1")) {%>
+								<td><img src="img/1.png"/></td>
+								<%} %>
+								<%if(r.getPoint().equals("2")) {%>
+								<td><img src="img/2.png"/></td>
+								<%} %>
+								<%if(r.getPoint().equals("3")) {%>
+								<td><img src="img/3.png"/></td>
+								<%} %>
+								<%if(r.getPoint().equals("4")) {%>
+								<td><img src="img/4.png"/></td>
+								<%} %>
 								<td><%=r.getInfo()%></td>
 						    </tr>
 						    <%}%>

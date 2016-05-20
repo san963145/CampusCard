@@ -167,37 +167,29 @@ public class GrantRecommend extends HttpServlet {
      	 Double s2=Double.parseDouble(list.get(x).toString());
      	 x=(int) ((double)n/100.0*40.0);
      	 Double s3=Double.parseDouble(list.get(x).toString());
-     	 x=(int) ((double)n/100.0*90.0);
-     	 Double s4=Double.parseDouble(list.get(x).toString());
  	     String x1=s1.toString();
  	     String x2=s2.toString();
  	     String x3=s3.toString();
- 	     String x4=s4.toString();
  	     String[] t1=new String[3];
  	     String[] t2=new String[3];
  	     String[] t3=new String[3];
  	     String[] t4=new String[3];
- 	     String[] t5=new String[3];
  	     t1[0]="¸ßÓÚ"+x1;
- 	     t1[1]="5ĞÇ";
+ 	     t1[1]="4";
  	     t1[2]="8%";
  	     t2[0]=x2+"-"+x1;
- 	     t2[1]="4ĞÇ";
+ 	     t2[1]="3";
  	     t2[2]="24%";
  	     t3[0]=x3+"-"+x2;
- 	     t3[1]="3ĞÇ";
+ 	     t3[1]="2";
  	     t3[2]="8%";
- 	     t4[0]=x4+"-"+x3;
- 	     t4[1]="2ĞÇ";
- 	     t4[2]="50%";
- 	     t5[0]="µÍÓÚ"+x4;
- 	     t5[1]="1ĞÇ";
- 	     t5[2]="10%";
+ 	     t4[0]="µÍÓÚ"+x3;
+ 	     t4[1]="1";
+ 	     t4[2]="60%";
  	     result.add(t1);
  	     result.add(t2);
  	     result.add(t3);
  	     result.add(t4);
- 	     result.add(t5);
      	}
      	 return result;
      }
@@ -216,25 +208,19 @@ public class GrantRecommend extends HttpServlet {
     	 Double s2=Double.parseDouble(list.get(x).toString());
     	 x=(int) ((double)n/100.0*40.0);
     	 Double s3=Double.parseDouble(list.get(x).toString());
-    	 x=(int) ((double)n/100.0*90.0);
-    	 Double s4=Double.parseDouble(list.get(x).toString());
 	     if(point>s1)
-	    	 return "5ĞÇ";
+	    	 return "4";
 	     else if(point<=s1 &&point>s2)
 	     {
-	    	 return "4ĞÇ";
+	    	 return "3";
 	     }
 	     else if(point<=s2 &&point>s3)
 	     {
-	    	 return "3ĞÇ";
-	     }
-	     else if(point<=s3 &&point>s4)
-	     {
-	    	 return "2ĞÇ";
+	    	 return "2";
 	     }
 	     else
 	     {
-	    	 return "1ĞÇ";
+	    	 return "1";
 	     }
     	}
     	 return null;
@@ -254,25 +240,19 @@ public class GrantRecommend extends HttpServlet {
     	 Double s2=Double.parseDouble(list.get(x).toString());
     	 x=(int) ((double)n/100.0*40.0);
     	 Double s3=Double.parseDouble(list.get(x).toString());
-    	 x=(int) ((double)n/100.0*90.0);
-    	 Double s4=Double.parseDouble(list.get(x).toString());
 	     if(point>s1)
-	    	 return "5ĞÇ";
+	    	 return "4";
 	     else if(point<=s1 &&point>s2)
 	     {
-	    	 return "4ĞÇ";
+	    	 return "3";
 	     }
 	     else if(point<=s2 &&point>s3)
 	     {
-	    	 return "3ĞÇ";
-	     }
-	     else if(point<=s3 &&point>s4)
-	     {
-	    	 return "2ĞÇ";
+	    	 return "2";
 	     }
 	     else
 	     {
-	    	 return "1ĞÇ";
+	    	 return "1";
 	     }
     	}
     	 return null;

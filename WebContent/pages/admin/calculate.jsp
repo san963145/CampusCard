@@ -23,7 +23,7 @@
   <head>
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
-    <title>用户及系统管理</title>
+    <title>后台管理</title>
 	 <!-- 禁缓存-->
     <meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -56,7 +56,7 @@
       <header class=" main-header" id="my-menu">
         <!-- Logo -->
 		<a class="logo" href="#systems" data-toggle="collapse" data-parent="#my-menu">
-			<b>系统计算<span class="caret"></span></b>
+			<b>后台管理<span class="caret"></span></b>
 		</a>
 		
         <!-- Header Navbar: style can be found in header.less -->

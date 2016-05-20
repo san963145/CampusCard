@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sys.card.dao.DepartmentPointDao;
 import com.sys.card.dao.PointExceptionDao;
-import com.sys.card.dao.StudentPointDao;
 import com.sys.card.daoImpl.DepartmentPointDaoImpl;
 import com.sys.card.daoImpl.PointExceptionDaoImpl;
-import com.sys.card.daoImpl.StudentPointDaoImpl;
-import com.sys.card.util.Calculate;
+
 
 /**
  * 处理评级计算请求
@@ -25,7 +23,7 @@ import com.sys.card.util.Calculate;
 public class CalculateStatistics extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static StudentPointDao studentPointDao=new StudentPointDaoImpl();   
+	//private static StudentPointDao studentPointDao=new StudentPointDaoImpl();   
 	private static PointExceptionDao pointExceptionDao=new PointExceptionDaoImpl();
 	private static DepartmentPointDao departmentPointDao=new DepartmentPointDaoImpl();
 	
@@ -84,8 +82,14 @@ public class CalculateStatistics extends HttpServlet {
 					@Override
 					public void run() {
 						  // TODO Auto-generated method stub
-						  Calculate.initCalculate();
-					      Calculate.calculateDepartmentPoint();
+						  /*Calculate.initCalculate();
+					      Calculate.calculateDepartmentPoint();*/
+						  try {
+							Thread.sleep(10000);
+						  } catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						  }
 						  setFlag();
 					}					 
 			 }).start();			 
@@ -111,9 +115,15 @@ public class CalculateStatistics extends HttpServlet {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						Calculate.calculateStudentPoint();
+						/*Calculate.calculateStudentPoint();
 						departmentPointDao.formatDecimal();	
-						studentPointDao.formatDecimal();
+						studentPointDao.formatDecimal();*/
+						try {
+							Thread.sleep(10000);
+						  } catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						  }
 						setFlag();
 					}
 					 
@@ -141,7 +151,13 @@ public class CalculateStatistics extends HttpServlet {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						Calculate.calculateException();
+						/*Calculate.calculateException();*/
+						try {
+							Thread.sleep(10000);
+						  } catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						  }
 						setFlag();
 					}
 					 

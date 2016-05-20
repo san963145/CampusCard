@@ -87,7 +87,7 @@ public class Login implements Filter {
             }
         	if(curUser.length()==0)
         	{
-        		String gotoURL = req.getRequestURL().toString();
+        		String gotoURL = "http://stusys2.cqu.edu.cn/CampusCard/index.jsp";
         		String loginURL = im.getLoginURL() +"?goto=" +java.net.URLEncoder.encode(gotoURL,"UTF-8");
         		res.sendRedirect(loginURL);
         	}
@@ -119,7 +119,7 @@ public class Login implements Filter {
         	}
         }       
         if(!set.contains(requestURI))    // ≈–∂œ Œ¥µ«¬º∑√Œ œµÕ≥
-        {  
+        {
     		User u=(User) session.getAttribute("user");
     		if(u==null)
     		{
@@ -155,13 +155,16 @@ public class Login implements Filter {
 		set.add("/pages/admin/calculate.jsp");
 		set.add("/pages/admin/calculateCard.jsp");
 		set.add("/pages/admin/config.jsp");
+		set.add("/calculate.jsp");
+		set.add("/calculateCard.jsp");
+		set.add("/config.jsp");
 		set.add("/AdminLogin");
 		set.add("/CalculateStatistics");
 		set.add("/CheckApplication");
 		set.add("/EnterSafeModel");
 		set.add("/ExitSafeModel");
 		set.add("/error.jsp");
-		
+		System.out.println(123);
 	}
 
 }
