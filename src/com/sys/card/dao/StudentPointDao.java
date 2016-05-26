@@ -91,5 +91,10 @@ public interface StudentPointDao {
       */
      public List selectPointByDMG(String department,String major,int grade);
      public void formatDecimal();
+     
+     /**
+      *  删除无分数学生记录
+      */
+     public void clean();
 
 }

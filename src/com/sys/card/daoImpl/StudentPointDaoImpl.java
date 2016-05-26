@@ -82,7 +82,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List select(String department,int grade)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select s.sno,t.sname,s.gender,s.hasScholarship,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and t.grade=?";
+    	 String hql="select s.sno,t.sname,s.gender,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and t.grade=?";
     	 Query query=session.createQuery(hql);
          query.setString(0,department);
          query.setInteger(1,grade);
@@ -98,7 +98,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List selectByDMG(String department,String major,int grade)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select s.sno,t.sname,s.gender,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint2 s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and substr(t.classNo,3,4) = ? and t.grade=?";
+    	 String hql="select s.sno,t.sname,s.gender,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=? and substr(t.classNo,3,4) = ? and t.grade=?";
     	 Query query=session.createQuery(hql);
          query.setString(0,department);
          query.setString(1,major);
@@ -149,7 +149,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List select(String department)
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select s.sno,t.sname,s.gender,s.hasScholarship,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=?";
+    	 String hql="select s.sno,t.sname,s.gender,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno) and t.department=?";
     	 Query query=session.createQuery(hql);
          query.setString(0,department);
          List result=null;
@@ -165,7 +165,7 @@ public class StudentPointDaoImpl implements StudentPointDao{
      public  List select()
      {
     	 Session session=SessionManager.getSession();
-    	 String hql="select s.sno,t.sname,s.gender,s.hasScholarship,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno)";
+    	 String hql="select s.sno,t.sname,s.gender,s.total,s.count,s.average,s.lunchTTL,s.lunchCNT,s.lunchAVG,s.supperTTL,s.supperCNT,s.supperAVG,s.point from StudentPoint s,StudentInfo t where trim(s.sno)=trim(t.sno)";
     	 Query query=session.createQuery(hql);
          List result=null;
          result=query.list();
@@ -439,5 +439,18 @@ public class StudentPointDaoImpl implements StudentPointDao{
   		 session.clear();
   		 session.close();
      }
+	@Override
+	public void clean() {
+		// TODO Auto-generated method stub
+		 Session session=SessionManager.getSession();
+ 		 Transaction transaction=session.beginTransaction();
+   	     String hql="delete from StudentPoint t where t.point is null";
+   	     Query query=session.createQuery(hql);
+ 		 query=session.createQuery(hql);
+		 query.executeUpdate();
+ 		 transaction.commit(); 
+ 		 session.clear();
+ 		 session.close();
+	}
 
 }

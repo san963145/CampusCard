@@ -11,6 +11,7 @@ import java.util.List;
 
 
 
+
 import com.sys.card.bean.DepartmentPoint;
 import com.sys.card.dao.DepartmentPointDao;
 import com.sys.card.dao.InitProcess;
@@ -140,7 +141,8 @@ public class Calculate {
            departmentPoint.setSupper_AVGMAX(departmentPointDao.getMax("supperAVG", department, grade));
            departmentPoint.setSupper_AVGMEAN(departmentPointDao.getMean("supperAVG", department, grade));
            departmentPoint.setSupper_AVGSD(departmentPointDao.getSD("supperAVG", department, grade,departmentPoint.getSupper_AVGMEAN()));           
-           departmentPointDao.add(departmentPoint);
+           if(departmentPoint.getCount_SD()>0)
+             departmentPointDao.add(departmentPoint);
        }
        
        /**
@@ -175,16 +177,18 @@ public class Calculate {
     	   List list=studentPointDao.select((String)obj[0],(Integer)obj[1]); //obj[0]学院 ,obj[1]年级
     	   if(list!=null)
     	   {
+    		   if(list.size()==0)
+    			   return ;
     		   Iterator it=list.iterator();
     		   while(it.hasNext())                            //对选出的所有学生进行迭代
     		   {
     			   int i;
-    			   Object[] studentData=(Object[])it.next();
-    			   String sno=(String)studentData[0];
+    			   Object[] studentData=(Object[])it.next();    			   
+    			   String sno=(String)studentData[0];    			
     			   double finalPoint=0;
     			   for(i=0;i<9;i++)
     			   {
-    				   data[i]=Double.parseDouble(studentData[i+4].toString());      //学生的9项数据
+    				   data[i]=Double.parseDouble(studentData[i+3].toString());      //学生的9项数据
     			   }
     			   for(i=0;i<54;i++)
     			   {
@@ -330,11 +334,34 @@ public class Calculate {
         */
        private static double cal(double u)
        {
-    		double y=Math.abs(u);
-    		double y2 = y*y;
-    		double p=Math.exp(-0.5 * y2) * 0.398942280401432678;    		
-    		if(u>0) p = 1.0 - p;
-    		return p;
+    	double y=Math.abs(u);
+   		double y2 = y*y;
+   		double z=Math.exp(-0.5 * y2) * 0.398942280401432678;
+   		double p=0;
+   		int k=28;
+   		double s = -1;
+   		double fj=k;
+   		if(y>3)
+   		{
+   		  for(int i=1;i<=k;i++)
+   		  {
+   		   p = fj / (y+p);
+   		   fj=fj - 1.0;
+   		  }
+   		  p = z / (y+p);
+   		}
+   		else
+   		{
+   		  for(int i=1;i<=k;i++)
+   		  {
+   		    p = fj * y2 / (2.0*fj +1.0 + s * p);
+   		    s = -s;
+   		    fj = fj - 1.0;
+   		  }
+   		  p = 0.5 - z * y / ( 1 - p );
+   		}
+   		if(u>0) p = 1.0 - p;
+   		return p;
        }
 
 }

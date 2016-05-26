@@ -6,7 +6,6 @@ package com.sys.card.bean;
 public class StudentPoint {                 //学生消费记录表
 	private String sno;
 	private String gender;
-	private String hasScholarship;
 	private double total;
 	private int count;
 	private double average;
@@ -28,12 +27,6 @@ public class StudentPoint {                 //学生消费记录表
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-	public String getHasScholarship() {
-		return hasScholarship;
-	}
-	public void setHasScholarship(String hasScholarship) {
-		this.hasScholarship = hasScholarship;
 	}
 	public double getTotal() {
 		return total;

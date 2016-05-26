@@ -17,7 +17,6 @@
 	
 	<mapping resource="com/sys/card/bean/User.xml"/>
 	<mapping resource="com/sys/card/bean/StudentPoint.xml"/>
-	<mapping resource="com/sys/card/bean/StudentPoint2.xml"/>
 	<mapping resource="com/sys/card/bean/StudentInfo.xml"/>
 	<mapping resource="com/sys/card/bean/DepartmentPoint.xml"/>
     <mapping resource="com/sys/card/bean/PointException.xml"/>

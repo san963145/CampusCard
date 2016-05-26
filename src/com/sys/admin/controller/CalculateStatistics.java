@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sys.card.dao.DepartmentPointDao;
-import com.sys.card.dao.PointExceptionDao;
-import com.sys.card.daoImpl.DepartmentPointDaoImpl;
-import com.sys.card.daoImpl.PointExceptionDaoImpl;
+
+import com.sys.card.util.Calculate;
 
 
 /**
@@ -24,9 +22,9 @@ public class CalculateStatistics extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	//private static StudentPointDao studentPointDao=new StudentPointDaoImpl();   
-	private static PointExceptionDao pointExceptionDao=new PointExceptionDaoImpl();
-	private static DepartmentPointDao departmentPointDao=new DepartmentPointDaoImpl();
-	
+
+	/*private static DepartmentPointDao departmentPointDao=new DepartmentPointDaoImpl();
+	private static StudentPointDao studentPointDao=new StudentPointDaoImpl();*/
 	private static boolean flag=false;  
 	private static boolean initflag=false;
 	private static boolean initflag1=false;
@@ -116,8 +114,9 @@ public class CalculateStatistics extends HttpServlet {
 					public void run() {
 						// TODO Auto-generated method stub
 						/*Calculate.calculateStudentPoint();
+						studentPointDao.clean();
 						departmentPointDao.formatDecimal();	
-						studentPointDao.formatDecimal();*/
+						studentPointDao.formatDecimal();*/	
 						try {
 							Thread.sleep(10000);
 						  } catch (InterruptedException e) {
@@ -151,7 +150,7 @@ public class CalculateStatistics extends HttpServlet {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						/*Calculate.calculateException();*/
+						/*Calculate.calculateException();*/		
 						try {
 							Thread.sleep(10000);
 						  } catch (InterruptedException e) {
@@ -188,7 +187,11 @@ public class CalculateStatistics extends HttpServlet {
 	}
     public static void main(String[] args)
     {
-       pointExceptionDao.clear();
- 	   departmentPointDao.clear();
+    	//Calculate.calculateDepartmentPoint();
+    	//Calculate.calculateStudentPoint();
+    	//studentPointDao.clean();
+    	//departmentPointDao.formatDecimal();	
+		//studentPointDao.formatDecimal();
+    	Calculate.calculateException();
     }
 }

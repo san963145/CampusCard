@@ -69,7 +69,7 @@ public class HeatMap extends HttpServlet {
 		String deparmentGrade=studentInfoDao.getDepartmentGradeBySno(sno);
 		if(deparmentGrade==null)
 		{
-			request.getRequestDispatcher("pages/cardSystem/searchByPerson.jsp").forward(request, response);
+			request.getRequestDispatcher("pages/statistics/heatMap.jsp").forward(request, response);
 			return;						
 		}
 		String major=studentInfoDao.selectMajorBySno(sno);
